@@ -1,0 +1,373 @@
+<!DOCTYPE html>
+<html lang="id">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Kalkulator TikTok Shop — Makanan & Accessories Hewan</title>
+    <meta name="description"
+        content="Hitung harga jual aman di TikTok Shop untuk kategori Makanan & Accessories Hewan. Jangan sampai rugi dipotong admin!">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&display=swap"
+        rel="stylesheet">
+    <link rel="stylesheet" href="style.css">
+</head>
+
+<body>
+    <div class="app">
+        <header class="header">
+            <div class="header-content">
+                <div class="logo">
+                    <div class="logo-icon">
+                        <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor"
+                            stroke-width="2.5" style="position:relative;z-index:1">
+                            <path d="M9 2h6v6a6 6 0 0 1-6 6H9V2z" />
+                            <path d="M15 8a4 4 0 0 0 4 4" />
+                            <path d="M9 14a6 6 0 1 0 6 0" />
+                        </svg>
+                    </div>
+                    <div>
+                        <h1>Kalkulator TikTok Shop</h1>
+                        <p class="subtitle">Makanan & Accessories Hewan 🐾</p>
+                    </div>
+                </div>
+                <span class="badge">Mei 2026</span>
+            </div>
+        </header>
+
+        <!-- Info Banner -->
+        <div class="info-banner">
+            <span class="info-icon">⚠️</span>
+            <span>Mulai <strong>18 Mei 2026</strong>: Cap Komisi Dinamis naik dari Rp40.000 → <strong>Rp650.000</strong>/item dan tarif naik 6% → <strong>8%</strong>. Pastikan harga jual sudah disesuaikan!</span>
+        </div>
+
+        <main class="main">
+            <!-- Mode Selector -->
+            <div class="mode-bar">
+                <button class="mode-btn active" data-mode="harga" onclick="setMode('harga')">Cari Harga Jual</button>
+                <button class="mode-btn" data-mode="profit" onclick="setMode('profit')">Cari Net Profit</button>
+                <button class="mode-btn" data-mode="terima" onclick="setMode('terima')">Dana Diterima</button>
+            </div>
+
+            <!-- Input Card -->
+            <section class="card" id="inputCard">
+                <div class="card-header">
+                    <h2 id="cardTitle">Cari Harga Jual Aman</h2>
+                </div>
+                <div class="card-body">
+                    <p class="card-desc" id="cardDesc">Masukkan HPP dan target margin (%). Margin = profit / HPP.
+                        Contoh: 100% artinya profit = HPP.</p>
+
+                    <!-- Mode 1: Cari Harga Jual (HPP + Margin %) -->
+                    <div class="input-row" id="inputsHarga">
+                        <div class="input-group">
+                            <label>HPP / Modal (Rp)</label>
+                            <div class="input-wrapper">
+                                <span class="input-prefix">Rp</span>
+                                <input type="text" id="hppForHarga" class="input-main" placeholder="50.000"
+                                    oninput="formatAndRecalculate(this)">
+                            </div>
+                        </div>
+                        <div class="input-group">
+                            <label>Target Margin (%)</label>
+                            <div class="input-wrapper">
+                                <input type="number" id="marginPct" class="input-main input-pct" value="20"
+                                    min="0" step="1" oninput="recalculate()">
+                                <span class="input-suffix">%</span>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Mode 2: Cari Net Profit (HPP + Target Profit Rp) -->
+                    <div class="input-row hidden" id="inputsProfit">
+                        <div class="input-group">
+                            <label>HPP / Modal (Rp)</label>
+                            <div class="input-wrapper">
+                                <span class="input-prefix">Rp</span>
+                                <input type="text" id="hppForProfit" class="input-main" placeholder="50.000"
+                                    oninput="formatAndRecalculate(this)">
+                            </div>
+                        </div>
+                        <div class="input-group">
+                            <label>Target Net Profit (Rp)</label>
+                            <div class="input-wrapper">
+                                <span class="input-prefix">Rp</span>
+                                <input type="text" id="profitTarget" class="input-main" placeholder="15.000"
+                                    oninput="formatAndRecalculate(this)">
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Mode 3: Dana Diterima -->
+                    <div class="input-row hidden" id="inputsTerima">
+                        <div class="input-group">
+                            <label>HPP / Modal (Rp)</label>
+                            <div class="input-wrapper">
+                                <span class="input-prefix">Rp</span>
+                                <input type="text" id="hppForTerima" class="input-main" placeholder="50.000"
+                                    oninput="formatAndRecalculate(this)">
+                            </div>
+                        </div>
+                        <div class="input-group">
+                            <label>Target Dana Diterima (Rp)</label>
+                            <div class="input-wrapper">
+                                <span class="input-prefix">Rp</span>
+                                <input type="text" id="targetDiterima" class="input-main" placeholder="65.000"
+                                    oninput="formatAndRecalculate(this)">
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Tier Selector -->
+                    <div class="tier-row">
+                        <label>Tipe Toko:</label>
+                        <div class="tier-selector">
+                            <button class="tier-btn active" data-tier="marketplace"
+                                onclick="setTier('marketplace')">Marketplace</button>
+                            <button class="tier-btn" data-tier="mall" onclick="setTier('mall')">Mall</button>
+                        </div>
+                    </div>
+
+                    <!-- Optional Fee Toggles -->
+                    <div class="toggle-section">
+                        <div class="toggle-section-title">Biaya Opsional</div>
+                        <div class="toggle-row">
+                            <div class="toggle-item" id="cashbackItem">
+                                <div class="switch">
+                                    <input type="checkbox" id="toggleCashback" onchange="toggleCashback()">
+                                    <span class="switch-slider"></span>
+                                </div>
+                                <label for="toggleCashback">Cashback Bonus</label>
+                                <input type="text" id="rateCashback" class="toggle-rate" value="4,00"
+                                    disabled oninput="recalculate()">
+                                <span class="toggle-unit">%</span>
+                            </div>
+                            <div class="toggle-item" id="afiliasiItem">
+                                <div class="switch">
+                                    <input type="checkbox" id="toggleAfiliasi" onchange="toggleAfiliasi()">
+                                    <span class="switch-slider"></span>
+                                </div>
+                                <label for="toggleAfiliasi">Komisi Afiliasi</label>
+                                <input type="text" id="rateAfiliasi" class="toggle-rate" value="5,00"
+                                    disabled oninput="recalculate()">
+                                <span class="toggle-unit">%</span>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </section>
+
+            <!-- Result Card -->
+            <section class="card result-card" id="resultCard" style="display:none;">
+                <div class="card-header result-header">
+                    <h2 id="resultTitle">Hasil Perhitungan</h2>
+                </div>
+                <div class="card-body">
+                    <!-- Big Result -->
+                    <div class="big-result" id="bigResult">
+                        <span class="big-label" id="bigLabel">Harga Jual Minimum</span>
+                        <span class="big-value" id="bigValue">Rp 0</span>
+                        <span class="big-note" id="bigNote"></span>
+                    </div>
+
+                    <!-- Summary Grid -->
+                    <div class="summary-grid" id="summaryGrid">
+                        <div class="summary-item" id="sumItem1">
+                            <span class="summary-label" id="sumLabel1">HPP</span>
+                            <span class="summary-value" id="sumValue1">Rp 0</span>
+                        </div>
+                        <div class="summary-item" id="sumItem2">
+                            <span class="summary-label" id="sumLabel2">Total Potongan</span>
+                            <span class="summary-value deduction" id="sumValue2">-Rp 0</span>
+                        </div>
+                        <div class="summary-item" id="sumItem3">
+                            <span class="summary-label" id="sumLabel3">Yang Diterima</span>
+                            <span class="summary-value" id="sumValue3">Rp 0</span>
+                        </div>
+                        <div class="summary-item highlight-item" id="sumItem4">
+                            <span class="summary-label" id="sumLabel4">Net Profit</span>
+                            <span class="summary-value profit" id="sumValue4">Rp 0</span>
+                        </div>
+                    </div>
+
+                    <!-- Fee Breakdown -->
+                    <details class="breakdown-details">
+                        <summary>Rincian Potongan TikTok Shop</summary>
+                        <div class="breakdown-list">
+                            <div class="breakdown-item">
+                                <span>Komisi Platform <small id="brkKomisiPlatformPct"></small></span>
+                                <span id="brkKomisiPlatform">Rp 0</span>
+                            </div>
+                            <div class="breakdown-item">
+                                <span>Komisi Dinamis <small id="brkKomisiDinamisPct"></small>
+                                    <span class="cap-badge" id="capBadge" style="display:none">CAP Rp650K</span>
+                                </span>
+                                <span id="brkKomisiDinamis">Rp 0</span>
+                            </div>
+                            <div class="breakdown-item" id="brkCashbackRow" style="display:none">
+                                <span>Cashback Bonus <small id="brkCashbackPct"></small></span>
+                                <span id="brkCashback">Rp 0</span>
+                            </div>
+                            <div class="breakdown-item" id="brkAfiliasiRow" style="display:none">
+                                <span>Komisi Afiliasi <small id="brkAfiliasiPct"></small></span>
+                                <span id="brkAfiliasi">Rp 0</span>
+                            </div>
+                            <div class="breakdown-item">
+                                <span>Biaya Pemrosesan <small>(flat)</small></span>
+                                <span id="brkProses">Rp 0</span>
+                            </div>
+                            <div class="breakdown-item total-row">
+                                <span>Total Potongan</span>
+                                <span id="brkTotal">Rp 0</span>
+                            </div>
+                        </div>
+                    </details>
+
+                    <!-- Visual Bar -->
+                    <div class="visual-section" id="visualSection">
+                        <div class="visual-label">Komposisi Harga Jual</div>
+                        <div class="visual-bar">
+                            <div class="bar-seg seg-hpp" id="barHPP"></div>
+                            <div class="bar-seg seg-fee" id="barFee"></div>
+                            <div class="bar-seg seg-profit" id="barProfit"></div>
+                        </div>
+                        <div class="visual-legend">
+                            <span><span class="dot dot-hpp"></span> HPP</span>
+                            <span><span class="dot dot-fee"></span> Potongan</span>
+                            <span><span class="dot dot-profit"></span> Profit</span>
+                        </div>
+                    </div>
+                </div>
+            </section>
+
+            <!-- Fee Settings -->
+            <section class="card">
+                <details class="settings-details">
+                    <summary class="card-header clickable">
+                        <h2>Pengaturan Biaya</h2>
+                        <span class="settings-hint">Sesuaikan dengan Seller Centre</span>
+                    </summary>
+                    <div class="card-body">
+                        <div class="settings-grid">
+                            <div class="setting-item">
+                                <label>Komisi Platform (%)</label>
+                                <input type="text" id="feeKomisiPlatform" value="6,00" class="input-field"
+                                    oninput="recalculate()">
+                                <span class="setting-note">Marketplace</span>
+                            </div>
+                            <div class="setting-item">
+                                <label>Komisi Dinamis (%)</label>
+                                <input type="text" id="feeKomisiDinamis" value="8,00" class="input-field"
+                                    oninput="recalculate()">
+                                <span class="setting-note">Per 18 Mei 2026</span>
+                            </div>
+                            <div class="setting-item">
+                                <label>Cap Dinamis (Rp)</label>
+                                <input type="text" id="feeCapDinamis" value="650.000" class="input-field"
+                                    oninput="recalculate()">
+                                <span class="setting-note">Maks per item</span>
+                            </div>
+                            <div class="setting-item">
+                                <label>Biaya Proses (Rp)</label>
+                                <input type="text" id="feeBiayaProses" value="1.250" class="input-field"
+                                    oninput="recalculate()">
+                                <span class="setting-note">Flat per pesanan</span>
+                            </div>
+                        </div>
+                        <div class="total-fee-bar">
+                            Total potongan: <strong id="totalFeePercent">14,00%</strong> + Rp <strong
+                                id="totalFeeFlat">1.250</strong> per transaksi
+                            <br><small style="color:var(--text-dim)">*Komisi Dinamis di-cap maks Rp650.000/item</small>
+                        </div>
+                    </div>
+                </details>
+            </section>
+
+            <!-- Reference -->
+            <section class="card">
+                <details class="ref-details">
+                    <summary class="card-header clickable">
+                        <h2>Referensi Biaya per Kategori</h2>
+                    </summary>
+                    <div class="card-body">
+                        <table class="ref-table">
+                            <thead>
+                                <tr>
+                                    <th>Jenis Biaya</th>
+                                    <th>Marketplace</th>
+                                    <th>Mall</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <tr class="highlight-row">
+                                    <td><strong>Komisi Platform</strong><br><small>Makanan & Acc. Hewan</small></td>
+                                    <td><strong>6,00%</strong></td>
+                                    <td><strong>8,00%</strong></td>
+                                </tr>
+                                <tr>
+                                    <td>Komisi Dinamis<br><small>Cap Rp650.000/item</small></td>
+                                    <td colspan="2" style="text-align:center">8,00%</td>
+                                </tr>
+                                <tr>
+                                    <td>Biaya Pemrosesan Order</td>
+                                    <td colspan="2" style="text-align:center">Rp 1.250/pesanan</td>
+                                </tr>
+                                <tr>
+                                    <td>Biaya Pre-Order<br><small>(jika aktif)</small></td>
+                                    <td colspan="2" style="text-align:center">3,00%</td>
+                                </tr>
+                            </tbody>
+                        </table>
+
+                        <table class="ref-table" style="margin-top:16px">
+                            <thead>
+                                <tr>
+                                    <th colspan="3">Biaya Opsional</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <tr>
+                                    <td>Cashback Bonus</td>
+                                    <td colspan="2">Bervariasi (dikenakan jika ikut program)</td>
+                                </tr>
+                                <tr>
+                                    <td>Komisi Afiliasi</td>
+                                    <td colspan="2">2-15% (ditentukan seller)</td>
+                                </tr>
+                                <tr>
+                                    <td>Komisi Iklan Toko Afiliasi</td>
+                                    <td colspan="2">Bervariasi</td>
+                                </tr>
+                                <tr>
+                                    <td>Biaya Voucher Xtra</td>
+                                    <td colspan="2">Bervariasi (Growth Xtra program)</td>
+                                </tr>
+                            </tbody>
+                        </table>
+
+                        <p class="ref-note" style="margin-top:14px">
+                            Sumber: <a href="https://seller-id.tokopedia.com/university/essay?knowledge_id=5411650459305729"
+                                target="_blank" rel="noopener">Seller University — Biaya Komisi Platform</a>
+                            · <a href="https://seller-id.tokopedia.com/university/essay?knowledge_id=6385751723132688"
+                                target="_blank" rel="noopener">Biaya Komisi Dinamis</a>
+                            · <a href="https://seller-id.tokopedia.com/university/essay?knowledge_id=2767365667784464"
+                                target="_blank" rel="noopener">Biaya Pemrosesan Order</a>
+                            — Mei 2026
+                        </p>
+                    </div>
+                </details>
+            </section>
+        </main>
+
+        <footer class="footer">
+            <p>Kalkulator TikTok Shop — Makanan & Accessories Hewan 🐾</p>
+            <p class="footer-small">Data per Mei 2026 · <a
+                    href="https://seller-id.tokopedia.com/university/essay?knowledge_id=5411650459305729"
+                    target="_blank" rel="noopener">Sumber Resmi</a></p>
+        </footer>
+    </div>
+    <script src="app.js"></script>
+</body>
+
+</html>
