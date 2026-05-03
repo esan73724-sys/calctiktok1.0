@@ -217,7 +217,7 @@ body {
 .input-pct { text-align: center; }
 .input-pct::-webkit-inner-spin-button,
 .input-pct::-webkit-outer-spin-button { -webkit-appearance: none; margin: 0; }
-.input-pct { -moz-appearance: textfield; }
+.input-pct { appearance: textfield; }
 
 /* Tier */
 .tier-row {
