@@ -186,8 +186,15 @@ function setMode(mode) {
         d.textContent = 'Masukkan HPP dan target dana yang ingin diterima (Rp). Kalkulator menghitung harga jual.';
     }
 
+    // Reset all inputs when switching mode
+    document.getElementById('hppForHarga').value = '';
+    document.getElementById('marginPct').value = '20';
+    document.getElementById('hppForProfit').value = '';
+    document.getElementById('profitTarget').value = '';
+    document.getElementById('hppForTerima').value = '';
+    document.getElementById('targetDiterima').value = '';
+
     document.getElementById('resultCard').style.display = 'none';
-    recalculate();
 }
 
 // --- Toggle handlers ---
